@@ -1,0 +1,33 @@
+body{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+p{
+    margin: 0;
+}
+.cs_container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 24px;
+}
+.cs_content{
+    border-right: 1px solid gray;
+    padding: 0 24px;
+}
+/* sidebar css */
+
+.content_sidebar_wrapper{
+    position: relative;
+}
+div.content_sidebar{
+    position: sticky;
+    top: 0;
+}
+.items_sub_menu p{
+    display: none;
+}
+.h3_css{
+    padding-left: 12px;
+}
