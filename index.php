@@ -17,6 +17,7 @@ define('CS_URL',plugin_dir_url(__FILE__));
 function cs_script_callback(){
     $version = CS_DEBUG ? time() : CS_VERSION ;
     wp_enqueue_style( 'cs_custom_css', CS_URL.'assets/css/style.css' , false ,$version);
+    wp_enqueue_script('jquery');
     wp_enqueue_script( 'custom_main_js', CS_URL. 'assets/js/main.js', array('jquery'), $version, true);
 }
 add_action('wp_enqueue_scripts','cs_script_callback');
@@ -32,7 +33,7 @@ function cs_content_custom_shortcode( $atts ) {
     $h2_count = $h2s->length;
     $h3_count = $h3s->length;
     echo '<div class="content_sidebar_wrapper">';
-    echo '<div class="content_sidebar">';
+    echo '<div class="content_sidebar sticky">';
     for($i = 0; $i < $h2_count; $i++ ) {
         $h2 = $h2s->item($i);
         $attributes = $h2->attributes;
@@ -41,7 +42,7 @@ function cs_content_custom_shortcode( $atts ) {
         <div class="item_subitem">
         <?php
         if( isset($h2_id->value) ) {
-            echo '<p class="item_h2" data-id="'.$h2_id->value.'">'.$h2->nodeValue.'</p>';
+            echo '<p class="item_h2 sidebar_item" data-id="'.$h2_id->value.'">'.$h2->nodeValue.'</p>';
         }
         ?> 
         </div>
@@ -55,7 +56,7 @@ function cs_content_custom_shortcode( $atts ) {
             $attributes = $h3->attributes;
             $h3_id = $attributes->getNamedItem('id') ?: "";
             if( isset($h3_id->value) ) {
-                echo '<p class="item_h3 h3_css" data-id="'.$h3_id->value.'">'.$h3->nodeValue.'</p>';
+                echo '<p class="item_h3 h3_css sidebar_item" data-id="'.$h3_id->value.'">'.$h3->nodeValue.'</p>';
             }
         }
         ?>
@@ -66,4 +67,4 @@ function cs_content_custom_shortcode( $atts ) {
     ob_start();
     return ob_get_clean();
 }
-add_shortcode( 'cs_content', 'cs_content_custom_shortcode' );
+add_shortcode( 'cs_sidebar', 'cs_content_custom_shortcode' );

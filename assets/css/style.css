@@ -18,16 +18,32 @@ p{
 }
 /* sidebar css */
 
-.content_sidebar_wrapper{
+/* .content_sidebar_wrapper{
     position: relative;
-}
-div.content_sidebar{
+} */
+.content_sidebar{
+    width: 200px;
+    position: -webkit-sticky;
     position: sticky;
+    padding: 10px;
     top: 0;
+    z-index: 10;
+    border-right: 1px solid #ddd;
+    height: 100vh;
+    overflow-y: auto;
 }
 .items_sub_menu p{
     display: none;
 }
+.h3_css,
+.item_h2 {
+    padding:4px 0 4px 12px;
+    border-radius: 4px;
+}
 .h3_css{
-    padding-left: 12px;
+    padding-left: 24px;
+}
+.entry-content{
+    overflow-y: scroll;
+    height: 100vh;
 }
