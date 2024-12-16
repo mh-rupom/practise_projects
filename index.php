@@ -25,7 +25,7 @@ add_action('wp_enqueue_scripts','cs_script_callback');
 function cs_content_custom_shortcode( $atts ) {
     if( !is_singular('page') ) return;
     global $post;
-    $content = get_the_content(null, null, $post->ID);
+    $content = get_the_content(null, null, $post->ID); 
     $dom = new DOMDocument();
     $dom->loadHTML($content);
     $h2s = $dom->getElementsByTagName('h2');
@@ -49,6 +49,9 @@ function cs_content_custom_shortcode( $atts ) {
         <?php
     }
     ?>
+    <?php
+    echo '</div>';
+    ?>
     <div class="items_sub_menu">
         <?php
         for($j = 0; $j < $h3_count; $j++ ) {
@@ -62,9 +65,46 @@ function cs_content_custom_shortcode( $atts ) {
         ?>
     </div>
     <?php
-    echo '<div/>';
-    echo '<div/>';
+    echo '</div>';
     ob_start();
     return ob_get_clean();
 }
 add_shortcode( 'cs_sidebar', 'cs_content_custom_shortcode' );
+
+// php dom
+function custom_dom_shortcode($atts, $content = null) {
+    $doc = new DOMDocument();
+    $figureElement = $doc->createElement("figure");
+    $sectionElement1 = $doc->createElement("section");
+    $sectionElement2 = $doc->createElement("section");
+    $sectionElement3 = $doc->createElement("section");
+    $figureElement->appendChild($sectionElement1);
+    $figureElement->appendChild($sectionElement2);
+    $figureElement->appendChild($sectionElement3);
+    $doc->appendChild($figureElement);
+    // create attribute 
+    // $figure_attribute = $figureElement->createAttribute('class');
+    // $figure_attribute->value = 'dom_figure';
+    // set text node
+    $figureElement->setAttribute('class', 'dom_figure');
+    $textNode1 = $doc->createTextNode("This is some content inside the section1.");
+    $sectionElement1->appendChild($textNode1);
+    $textNode2 = $doc->createTextNode("This is some content inside the section2.");
+    $sectionElement2->appendChild($textNode2);
+    $textNode3 = $doc->createTextNode("This is some content inside the section3.");
+    $sectionElement3->appendChild($textNode3);
+    $content_text = $doc->getElementsByTagName('section');
+    foreach ($content_text as $c_text) {
+        echo $c_text->nodeValue, PHP_EOL;
+    }
+    $sectionElement2->setAttribute('id','section2');
+    // $section2_value = $doc->getElementById('section2')->tagName;
+    $section2 = $doc->getElementById('section2');
+    if($section2){
+        echo $section2->nodeValue . PHP_EOL;
+    }
+    // $sectionElement2->removeAttribute('id');
+    return $doc->saveHTML();
+}
+add_shortcode('custom_dom', 'custom_dom_shortcode');
+

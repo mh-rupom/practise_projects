@@ -37,7 +37,31 @@
                 // $('.sidebar_item').css('background', '');
             }
         });
+        $('.content_sidebar ').css({'position':'sticky','top': '10px' })
     });
+
+    // $(document).ready(function () {
+    //     let sidebar = $('.sticky'); 
+    //     let offset = sidebar.offset().top; 
+    //     $(window).on('scroll', function () {
+    //         let scrollTop = $(window).scrollTop();
+    //         if (scrollTop > offset ) {
+    //             sidebar.css({
+    //                 position: 'fixed', 
+    //             });
+    //         } else {
+    //             sidebar.css({
+    //                 position: 'relative',
+    //                 top: 'auto'
+    //             });
+    //         }
+    //     });
+    // });
+    // $(document).ready(function () {
+    //     $('.entry-content').animate({
+    //         scrollTop: 200
+    //     }, 500); 
+    // });
 
     // $('.entry-content').scroll(function () {
     //     let content_top = $(this).scrollTop(); 
