@@ -22,9 +22,56 @@ function cs_script_callback(){
 }
 add_action('wp_enqueue_scripts','cs_script_callback');
 // admin menu
-
+add_action('admin_menu', 'custom_admin_css_menu');
+function custom_admin_css_menu() {
+    add_menu_page(
+        'Site CSS Settings',      
+        'Site style',             
+        'manage_options',           
+        'site-css-settings',      
+        'site_css_settings_page', 
+        'dashicons-admin-customizer',
+        100                         
+    );
+}
+// Display the settings page
+function site_css_settings_page() {
+    if (isset($_POST['custom_css_save'])) {
+        $text_color = ($_POST['text_color']);
+        $bg_color = ($_POST['background_color']);
+        update_option('custom_text_color', $text_color);
+        update_option('custom_bg_color', $bg_color);
+        echo '<div class="updated"><p>Settings saved!</p></div>';
+    }
+    $saved_color = get_option('custom_text_color'); 
+    $saved_background = get_option('custom_bg_color'); 
+    ?>
+    <div class="wrap">
+        <h1>Sidebar style</h1>
+        <form method="post">
+            <table class="form-table">
+                <tr>
+                    <th><label for="">Color</label></th>
+                    <td>
+                        <input type="color" id="text_color" name="text_color" value="<?php echo esc_attr($saved_color); ?>">
+                    </td>
+                </tr>
+                <tr>
+                    <th><label for="background_color">Background Color</label></th>
+                    <td>
+                        <input type="color" id="background_color" name="background_color" value="<?php echo esc_attr($saved_background); ?>" data-default-color="#ffffff">
+                    </td>
+                </tr>
+            </table>
+            <input type="submit" value="Save" name="custom_css_save" id="save_setting">
+        </form>
+    </div>
+    <?php
+}
 // Register the shortcode.
 function cs_content_custom_shortcode( $atts ) {
+    $text_color = get_option('custom_text_color');
+    $bg_color = get_option('custom_bg_color');
     if( !is_singular('page') ) return;
     global $post;
     $content = get_the_content(null, null, $post->ID); 
@@ -35,7 +82,7 @@ function cs_content_custom_shortcode( $atts ) {
     $h2_count = $h2s->length;
     $h3_count = $h3s->length;
     echo '<div class="content_sidebar_wrapper">';
-    echo '<div class="content_sidebar sticky">';
+    echo '<div class="content_sidebar sticky" style="background: '.$bg_color.'"> ';
     for($i = 0; $i < $h2_count; $i++ ) {
         $h2 = $h2s->item($i);
         $attributes = $h2->attributes;
@@ -44,7 +91,7 @@ function cs_content_custom_shortcode( $atts ) {
         <div class="item_subitem">
         <?php
         if( isset($h2_id->value) ) {
-            echo '<p class="item_h2 sidebar_item" data-id="'.$h2_id->value.'">'.$h2->nodeValue.'</p>';
+            echo '<p class="item_h2 sidebar_item" data-id="'.$h2_id->value.'" style="color:'.$text_color.'">'.$h2->nodeValue.'</p>';
         }
         ?> 
         </div>
@@ -61,7 +108,7 @@ function cs_content_custom_shortcode( $atts ) {
             $attributes = $h3->attributes;
             $h3_id = $attributes->getNamedItem('id') ?: "";
             if( isset($h3_id->value) ) {
-                echo '<p class="item_h3 h3_css sidebar_item" data-id="'.$h3_id->value.'">'.$h3->nodeValue.'</p>';
+                echo '<p class="item_h3 h3_css sidebar_item" data-id="'.$h3_id->value.'" style="color:'.$text_color.'">'.$h3->nodeValue.'</p>';
             }
         }
         ?>
