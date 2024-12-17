@@ -21,6 +21,8 @@ function cs_script_callback(){
     wp_enqueue_script( 'custom_main_js', CS_URL. 'assets/js/main.js', array('jquery'), $version, true);
 }
 add_action('wp_enqueue_scripts','cs_script_callback');
+// admin menu
+
 // Register the shortcode.
 function cs_content_custom_shortcode( $atts ) {
     if( !is_singular('page') ) return;
@@ -106,5 +108,5 @@ function custom_dom_shortcode($atts, $content = null) {
     // $sectionElement2->removeAttribute('id');
     return $doc->saveHTML();
 }
-add_shortcode('custom_dom', 'custom_dom_shortcode');
+// add_shortcode('custom_dom', 'custom_dom_shortcode');
 
