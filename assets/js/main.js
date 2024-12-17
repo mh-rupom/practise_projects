@@ -1,12 +1,26 @@
 (function($) {
-    $(document).on('click', '.item_h2', function() {
+    $(document).on('click', '.item_h2', function(event) {
+        event.preventDefault();
         $('.item_h3').each(function() {
             $(this).closest('p').hide();
         });
         $(this).closest('div').find('.h3_css').remove();
         let data_id = $(this).data('id');
         let h2_div = $(this).closest('div');
-        window.location.href = '#' + data_id;
+        console.log(data_id);
+        // let target_offset = $("#"+data_id);
+        let target_offset = $('#item2').offset();
+
+        // console.log(target_offset.top);
+        // console.log(data_id);
+        
+        // var target_top = target_offset.top;
+        // console.log(target_top);
+        $('.entry-content').animate({scrollTop:400}, 800,function(){
+            
+        });
+        
+        // Smooth scrolling animation
         $('.items_sub_menu p').hide();
         $('.item_h3').each(function() {
             let h3_data_id = $(this).data('id');
@@ -16,11 +30,7 @@
                 var cloning = target_p.clone().hide();
                 cloning.addClass('h3_css');
                 h2_div.append(cloning)
-                // $('.h3_css').each(function(){
-                //     $(this).hide()
-                // })
                 cloning.slideDown(400)
-                // cloning.show(400)
                 target_p.hide(); 
             }
         });
@@ -42,22 +52,20 @@
                 // $('.sidebar_item').css('background', '');
             }
         });
-        // $('.content_sidebar ').css({'position':'sticky','top': '30px' })
     });
     let sidebar = $('.sticky'); 
     $(document).on('click','.item_subitem .sidebar_item', function () {
         sidebar.css({
-            position: 'fixed', 
-            top : '40px'
+            position: 'relative', 
+            top : '85px'
         });
         $('.sidebar_item').css('background', '');
         $(this).css('background','#ffecd1');
     });
     $(window).on('scroll',function(){
-        console.log('scrolling');
         sidebar.css({
             position: 'relative', 
-            top : '40px'
+            top : '85px'
         });
     })
 })(jQuery);
