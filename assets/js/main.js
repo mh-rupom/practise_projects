@@ -1,4 +1,10 @@
 (function($) {
+    console.log(localize_data.menu_css);
+    let menu_css = localize_data.menu_css;
+    let active_menu_color = menu_css.active_menu_color;
+    let active_menu_background = menu_css.active_menu_background;
+    
+    window.location.hash ='#Item1';
     $(document).on('click', '.item_h2', function(event) {
         event.preventDefault();
         $('.item_h3').each(function() {
@@ -9,15 +15,12 @@
         let h2_div = $(this).closest('div');
         console.log(data_id);
         // let target_offset = $("#"+data_id);
-        let target_offset = $('#item2').offset();
-
-        // console.log(target_offset.top);
-        // console.log(data_id);
-        
-        // var target_top = target_offset.top;
-        // console.log(target_top);
-        $('.entry-content').animate({scrollTop:400}, 800,function(){
-            
+        let target_offset = $('#'+data_id).offset();
+        console.log(target_offset);
+        var target_top = target_offset.top;
+        console.log(target_top);
+        $('.entry-content').animate({scrollTop: target_top}, 800,function(){
+            // window.location.href = '#'+ data_id
         });
         
         // Smooth scrolling animation

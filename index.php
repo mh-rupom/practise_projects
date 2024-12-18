@@ -15,13 +15,7 @@ define('CS_VERSION', '1.0.0');
 define('CS_PATH', plugin_dir_path(__FILE__));
 define('CS_URL',plugin_dir_url(__FILE__));
 // include (CS_PATH.'/includes/include.php');
-function cs_script_callback(){
-    $version = CS_DEBUG ? time() : CS_VERSION ;
-    wp_enqueue_style( 'cs_custom_css', CS_URL.'assets/css/style.css' , false ,$version);
-    wp_enqueue_script('jquery');
-    wp_enqueue_script( 'custom_main_js', CS_URL. 'assets/js/main.js', array('jquery'), $version, true);
-}
-add_action('wp_enqueue_scripts','cs_script_callback');
+
 // admin menu
 function custom_admin_css_menu() {
     add_menu_page(
@@ -53,3 +47,23 @@ add_shortcode( 'cs_sidebar', 'cs_content_custom_shortcode' );
 // 
 // }
 // add_action('wp_head', 'custom_dynamic_content_styles');
+
+function cs_script_callback(){
+    $version = CS_DEBUG ? time() : CS_VERSION ;
+    wp_enqueue_style( 'cs_custom_css', CS_URL.'assets/css/style.css' , false ,$version);
+    wp_enqueue_script('jquery');
+    wp_enqueue_script( 'custom_main_js', CS_URL. 'assets/js/main.js', array('jquery'), $version, true);
+    $active_menu_color = get_option('active_menu_color');
+    $active_menu_background = get_option('active_menu_background');
+    $menu_css = [
+        'active_menu_color' => $active_menu_color,
+        'active_menu_background' => $active_menu_background,
+    ];
+    wp_localize_script( 'custom_main_js', 'localize_data', array(
+        'ajax_url' => admin_url('admin-ajax.php'),
+        'menu_css' => $menu_css,
+        'nonce'    => wp_create_nonce('my_nonce'), 
+    ));
+    
+}
+add_action('wp_enqueue_scripts','cs_script_callback');
