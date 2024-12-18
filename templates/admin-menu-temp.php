@@ -7,11 +7,13 @@ if (isset($_POST['custom_css_save'])) {
     // $content_bg_color = sanitize_hex_color($_POST['content_background']);
     $active_menu_color = sanitize_hex_color($_POST['active_menu_color']);
     $active_menu_background = sanitize_hex_color($_POST['active_menu_background']);
+    $scrollbar_thumb_color = sanitize_hex_color($_POST['scrollbar_thumb_color']);
     
     update_option('custom_sidebar_text_color', $sidebar_text_color);
     update_option('custom_sidebar_bg_color', $sidebar_bg_color);
     update_option('active_menu_color', $active_menu_color);
     update_option('active_menu_background', $active_menu_background);
+    update_option('scrollbar_thumb_color', $scrollbar_thumb_color);
     // update_option('custom_content_title_color', $content_title_color);
     // update_option('custom_content_text_color', $content_text_color);
     // update_option('custom_content_bg_color', $content_bg_color);
@@ -21,6 +23,7 @@ $saved_sidebar_color = get_option('custom_sidebar_text_color');
 $saved_sidebar_background = get_option('custom_sidebar_bg_color'); 
 $saved_menu_color = get_option('active_menu_color'); 
 $saved_menu_background = get_option('active_menu_background'); 
+$saved_scrollbar_thumb_color = get_option('scrollbar_thumb_color'); 
 // $saved_content_title_color = get_option('custom_content_title_color'); 
 // $saved_content_color = get_option('custom_content_text_color'); 
 // $saved_content_background = get_option('custom_content_bg_color'); 
@@ -72,6 +75,12 @@ $saved_menu_background = get_option('active_menu_background');
                 <th><label for="">Active Menu Background</label></th>
                 <td>
                     <input type="color" name="active_menu_background" id="active_menu_background" value="<?php echo esc_attr($saved_menu_background); ?>">
+                </td>
+            </tr>
+            <tr>
+                <th><label for="">Scrollbar Thumb Color</label></th>
+                <td>
+                    <input type="color" name="scrollbar_thumb_color" id="scrollbar_thumb_color" value="<?php echo esc_attr($saved_scrollbar_thumb_color); ?>">
                 </td>
             </tr>
         </table>

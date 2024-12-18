@@ -1,10 +1,30 @@
 (function($) {
-    console.log(localize_data.menu_css);
+    // window.onload = function () {
+    //     if (!window.location.hash == '#Item1') {
+    //         window.location.hash = '#Item1';
+    //     }
+    // };
     let menu_css = localize_data.menu_css;
     let active_menu_color = menu_css.active_menu_color;
     let active_menu_background = menu_css.active_menu_background;
-    
-    window.location.hash ='#Item1';
+    let scrollbar_thumb_color = menu_css.scrollbar_thumb_color;
+    // let thumb_color = 'red';
+    // let scrollbar_color = 'gray';
+    let style_scrollbar = `
+        .content_sidebar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .content_sidebar::-webkit-scrollbar-thumb {
+            background: ${scrollbar_thumb_color}; 
+            border-radius: 8px; 
+        }
+        .content_sidebar::-webkit-scrollbar-track {
+           
+            border-radius: 4px;
+        }
+    `;
+    // Append the style to the head
+    $('head').append(`<style>${style_scrollbar}</style>`);
     $(document).on('click', '.item_h2', function(event) {
         event.preventDefault();
         $('.item_h3').each(function() {
@@ -20,7 +40,7 @@
         var target_top = target_offset.top;
         console.log(target_top);
         $('.entry-content').animate({scrollTop: target_top}, 800,function(){
-            // window.location.href = '#'+ data_id
+            window.location.href = '#'+ data_id
         });
         
         // Smooth scrolling animation
@@ -42,7 +62,7 @@
         let data_id = $(this).data('id');
         window.location.href = '#' + data_id;
     });
-    $('.sidebar_item:first').css('background', '#ffecd1');
+    $('.sidebar_item:first').css('background', active_menu_background);
     $('.entry-content').scroll(function () {
         let content_top = $(this).offset().top; 
         $('.item_h2_or_h3').each(function () {
@@ -50,7 +70,14 @@
             if (item_top - content_top <= 10 && item_top - content_top >= 0) {
                 let a_item_id = $(this).attr("id");
                 $('.sidebar_item').css('background', '');
-                $(`.sidebar_item[data-id="${a_item_id}"]`).css('background', '#ffecd1');
+                $('.sidebar_item').css('color', '');
+                $(`.sidebar_item[data-id="${a_item_id}"]`).css({
+                    'background': active_menu_background ,
+                    'color' : active_menu_color 
+                });
+                $('.content_sidebar::-webkit-scrollbar-thumb').css({
+                    'background' : 'red'
+                })
             }else{
                 // $('.sidebar_item').css('background', '');
             }

@@ -57,7 +57,7 @@ p{
 }
 /* scroll */
 ::-webkit-scrollbar {
-    width: 8px; 
+    width: 4px; 
 }
 ::-webkit-scrollbar-track {
     background: #f4f4f4; 

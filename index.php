@@ -55,9 +55,11 @@ function cs_script_callback(){
     wp_enqueue_script( 'custom_main_js', CS_URL. 'assets/js/main.js', array('jquery'), $version, true);
     $active_menu_color = get_option('active_menu_color');
     $active_menu_background = get_option('active_menu_background');
+    $scrollbar_thumb_color = get_option('scrollbar_thumb_color');
     $menu_css = [
         'active_menu_color' => $active_menu_color,
         'active_menu_background' => $active_menu_background,
+        'scrollbar_thumb_color' => $scrollbar_thumb_color,
     ];
     wp_localize_script( 'custom_main_js', 'localize_data', array(
         'ajax_url' => admin_url('admin-ajax.php'),
