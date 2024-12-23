@@ -48,6 +48,68 @@ add_shortcode( 'cs_sidebar', 'cs_content_custom_shortcode' );
 // }
 // add_action('wp_head', 'custom_dynamic_content_styles');
 
+
+function custom_cart_content() {
+    if (function_exists('WC')) {
+        ob_start();
+        if (WC()->cart->is_empty()) {
+            echo '<div id="custom_cart_panel">
+                    <h3>Your Cart</h3>
+                    <p>Your cart is currently empty.</p>
+                </div>';
+        } else {
+            ?>
+            <div id="custom_cart_icon">
+                <img src="<?php echo plugin_dir_url( __FILE__ ) . 'assets/images/reshot-icon-shopping-cart-8DYPSUXJBK.svg'; ?>" alt="" />
+            </div>
+            <div id="custom_cart_panel">
+                <span class="close_panel"><img src="<?php echo plugin_dir_url( __FILE__ ) . 'assets/images/close.png'; ?>" alt="" /></span>
+                <h3>Your Cart</h3>
+                <ul class="cart_items">
+                    <?php
+                    foreach (WC()->cart->get_cart() as $cart_item_key => $cart_item) {
+                        $product = $cart_item['data']; 
+                        $product_name = $product->get_name();
+                        $product_quantity = $cart_item['quantity'];
+                        $product_price = wc_price($product->get_price());
+                        $product_permalink = $product->get_permalink();
+                        $product_thumbnail = $product->get_image('thumbnail');
+                        ?>
+                        <li>
+                            <div class="cart_item_thumbnail">
+                                <a href="<?php echo esc_url($product_permalink); ?>">
+                                    <?php echo $product_thumbnail; ?>
+                                </a>
+                            </div>
+                            <div class="cart_item_details">
+                                <a href="<?php echo esc_url($product_permalink); ?>" class="cart_item_name">
+                                    <?php echo esc_html($product_name); ?>
+                                </a>
+                                <div class="">
+                                    <span class="">Quantity: <?php echo esc_html($product_quantity); ?></span>
+                                    <span class="">Price: <?php echo $product_price; ?></span>
+                                </div>
+                            </div>
+                        </li>
+                        <?php
+                    }
+                    ?>
+                </ul>
+                <div class="cart_total">
+                    <strong>Total:</strong> <?php echo WC()->cart->get_cart_total(); ?>
+                </div>
+                <div class="cart_actions">
+                    <a href="<?php echo wc_get_cart_url(); ?>" class="view_cart">View Cart</a>
+                    <a href="<?php echo wc_get_checkout_url(); ?>" class="checkout">Checkout</a>
+                </div>
+            </div>
+            <?php
+        }
+        return ob_get_clean();
+    }
+}
+add_shortcode('cart_content', 'custom_cart_content');
+
 function cs_script_callback(){
     $version = CS_DEBUG ? time() : CS_VERSION ;
     wp_enqueue_style( 'cs_custom_css', CS_URL.'assets/css/style.css' , false ,$version);
