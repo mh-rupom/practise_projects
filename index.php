@@ -38,17 +38,6 @@ function cs_content_custom_shortcode( $atts ) {
     include(CS_PATH.'/templates/shortcode-sidebar.php');
 }
 add_shortcode( 'cs_sidebar', 'cs_content_custom_shortcode' );
-
-// content style
-// function custom_dynamic_content_styles() {
-//     $saved_content_title_color = get_option('custom_content_title_color');
-//     $saved_content_color = get_option('custom_content_text_color', '#000000');
-//     $saved_content_background = get_option('custom_content_bg_color', '#ffffff');
-// 
-// }
-// add_action('wp_head', 'custom_dynamic_content_styles');
-
-
 function custom_cart_content() {
     if (function_exists('WC')) {
         ob_start();
